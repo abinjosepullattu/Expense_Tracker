@@ -13,21 +13,14 @@ A modern, responsive, and feature-rich full-stack application designed to help u
 
 ---
 
-## 🔗 Live Production Links
-
-| Component | Platform | URL |
-| :--- | :--- | :--- |
-| **💻 Client Dashboard** | Vercel | [https://expense-trackiee.vercel.app/](https://expense-trackiee.vercel.app/) |
-| **⚙️ Django Backend API** | Render | [https://expense-tracker-api-1mxp.onrender.com](https://expense-tracker-api-1mxp.onrender.com) |
+💡 **Live Website Link:** [https://expense-trackiee.vercel.app/](https://expense-trackiee.vercel.app/)
 
 ---
 
 ## ✨ Features
 
 - **📊 Interactive Financial Dashboard:** Dynamic charts showing income vs. expense ratios, category-wise breakdowns, and history logs.
-- **🎛️ Digital Popover Calculator:** Integrated directly on the amount fields during transaction creation to compute ledgers on the fly.
 - **🛍️ Custom Category Creator:** Add, edit, or delete personal ledger categories dynamically right from the category dropdown list.
-- **🧾 Bill Scan & Receipt Uploader:** Toggle any transaction to be a bill payment, complete with due-date selectors, status badges, and receipt uploader.
 - **💱 Global Multi-Currency Support:** Handles INR (₹), USD ($), EUR (€), GBP (£), CAD ($), AUD ($), and JPY (¥) dynamically throughout setting screens and metrics.
 - **📋 Synchronous Financial Exports:** Convert logs to highly formatted **PDF ledgers**, **Excel worksheets** via `openpyxl`, or **CSV files**.
 
