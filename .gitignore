@@ -1,0 +1,25 @@
+# ─── Python ──────────────────────────────────────────────────
+*.pyc
+__pycache__/
+*.sqlite3
+.env
+media/
+staticfiles/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+
+# ─── Node ────────────────────────────────────────────────────
+node_modules/
+frontend/dist/
+.env.local
+.env.production
+
+# ─── OS ──────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ─── IDE ─────────────────────────────────────────────────────
+.vscode/
+.idea/
