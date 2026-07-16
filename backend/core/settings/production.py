@@ -27,10 +27,13 @@ DATABASES = {
 }
 
 # ─── CORS ────────────────────────────────────────────────────────────────────
-CORS_ALLOWED_ORIGINS = [o for o in config('CORS_ALLOWED_ORIGINS', default='').split(',') if o]
 CORS_ALLOW_CREDENTIALS = True
-if not CORS_ALLOWED_ORIGINS:
+origins = [o for o in config('CORS_ALLOWED_ORIGINS', default='').split(',') if o]
+if not origins or '*' in origins:
     CORS_ALLOW_ALL_ORIGINS = True
+    CORS_ALLOWED_ORIGINS = []
+else:
+    CORS_ALLOWED_ORIGINS = origins
 
 # ─── Security Headers ────────────────────────────────────────────────────────
 SECURE_BROWSER_XSS_FILTER   = True
