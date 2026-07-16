@@ -52,7 +52,7 @@ Expense_Tracker/
 
 ### 1. Prerequisites
 - Python 3.11.x
-- Node.js 18+
+- React.js 18+
 
 ### 2. Backend Setup
 ```bash
