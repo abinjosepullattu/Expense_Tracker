@@ -7,7 +7,15 @@ import dj_database_url
 from decouple import config
 
 DEBUG         = False
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
+ALLOWED_HOSTS = [h for h in config('ALLOWED_HOSTS', default='').split(',') if h]
+
+# Automatically append the Render external hostname
+render_host = config('RENDER_EXTERNAL_HOSTNAME', default=None)
+if render_host:
+    ALLOWED_HOSTS.append(render_host)
+else:
+    # Fallback to allow tests
+    ALLOWED_HOSTS.extend(['localhost', '127.0.0.1'])
 
 # ─── Free PostgreSQL (Neon or Supabase) ──────────────────────────────────────
 DATABASES = {
@@ -19,8 +27,10 @@ DATABASES = {
 }
 
 # ─── CORS ────────────────────────────────────────────────────────────────────
-CORS_ALLOWED_ORIGINS   = config('CORS_ALLOWED_ORIGINS', default='').split(',')
+CORS_ALLOWED_ORIGINS = [o for o in config('CORS_ALLOWED_ORIGINS', default='').split(',') if o]
 CORS_ALLOW_CREDENTIALS = True
+if not CORS_ALLOWED_ORIGINS:
+    CORS_ALLOW_ALL_ORIGINS = True
 
 # ─── Security Headers ────────────────────────────────────────────────────────
 SECURE_BROWSER_XSS_FILTER   = True
