@@ -4,12 +4,12 @@ A modern, responsive, and feature-rich full-stack application designed to help u
 
 🚀 **Deploy Status:** Fully live in production!
 
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=FFD62B)](https://vite.dev/)
-[![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)](https://www.djangoproject.com/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-[![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://render.com/)
-[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=FFD62B)
+![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
 ---
 
@@ -17,7 +17,7 @@ A modern, responsive, and feature-rich full-stack application designed to help u
 
 | Component | Platform | URL |
 | :--- | :--- | :--- |
-| **💻 Client Dashboard** | Vercel | `[INSERT YOUR LIVE VERCEL URL HERE]` |
+| **💻 Client Dashboard** | Vercel | [https://expense-trackiee.vercel.app/](https://expense-trackiee.vercel.app/) |
 | **⚙️ Django Backend API** | Render | [https://expense-tracker-api-1mxp.onrender.com](https://expense-tracker-api-1mxp.onrender.com) |
 
 ---
