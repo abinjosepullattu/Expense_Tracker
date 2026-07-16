@@ -18,6 +18,7 @@ class TransactionSerializer(serializers.ModelSerializer):
             'id', 'transaction_type',
             'category', 'category_detail',
             'amount', 'description', 'date',
+            'is_bill', 'bill_due_date', 'bill_image',
             'created_at', 'updated_at',
         ]
         read_only_fields = ['id', 'created_at', 'updated_at', 'category_detail']

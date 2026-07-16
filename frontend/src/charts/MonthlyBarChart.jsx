@@ -3,7 +3,7 @@ import {
   Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
 import { Box, Typography } from '@mui/material';
-import { formatCurrency } from '../utils/formatters';
+import { formatCurrency, getCurrencySymbol } from '../utils/formatters';
 
 /**
  * Last 6 months income vs expenses bar chart.
@@ -43,7 +43,7 @@ export default function MonthlyBarChart({ data = [] }) {
         <XAxis dataKey="month" tick={{ fill: '#94a3b8', fontSize: 12 }} />
         <YAxis
           tick={{ fill: '#94a3b8', fontSize: 11 }}
-          tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`}
+          tickFormatter={(v) => `${getCurrencySymbol()}${(v / 1000).toFixed(0)}k`}
         />
         <Tooltip
           contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: 8 }}

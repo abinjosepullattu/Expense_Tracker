@@ -2,17 +2,15 @@ import { useEffect, useState, useCallback } from 'react';
 import {
   Box, Typography, Button, Grid, Dialog, DialogTitle,
   DialogContent, DialogActions, TextField, MenuItem,
-  Alert, CircularProgress, IconButton, Stack,
+  Alert, CircularProgress, Stack, InputAdornment,
 } from '@mui/material';
 import AddIcon    from '@mui/icons-material/Add';
-import EditIcon   from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 import PageWrapper      from '../components/common/PageWrapper';
 import BudgetCard       from '../components/budgets/BudgetCard';
 import { budgetAPI }    from '../api/budgetAPI';
 import { categoryAPI }  from '../api/transactionAPI';
-import { currentPeriod } from '../utils/formatters';
+import { currentPeriod, getCurrencySymbol } from '../utils/formatters';
 
 const darkInput = {
   '& .MuiOutlinedInput-root': {
@@ -85,14 +83,19 @@ export default function BudgetsPage() {
   return (
     <PageWrapper>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Box>
+        <Box sx={{ display: { xs: 'none', md: 'block' } }}>
           <Typography variant="h4" fontWeight={700} color="white">Budgets</Typography>
           <Typography variant="body2" color="text.secondary">
             {new Date(year, month - 1).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })}
           </Typography>
         </Box>
+        <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+          <Typography variant="subtitle1" fontWeight={650} color="text.secondary">
+            Budgets ({new Date(year, month - 1).toLocaleDateString('en-IN', { month: 'long' })})
+          </Typography>
+        </Box>
         <Button variant="contained" startIcon={<AddIcon />} onClick={openCreate}
-          sx={{ borderRadius: 2, background: 'linear-gradient(90deg,#6366f1,#8b5cf6)', fontWeight: 600 }}>
+          sx={{ borderRadius: 2, background: 'linear-gradient(90deg,#6366f1,#8b5cf6)', fontWeight: 600, px: 2 }}>
           Add Budget
         </Button>
       </Box>
@@ -110,19 +113,11 @@ export default function BudgetsPage() {
         <Grid container spacing={2.5}>
           {budgets.map((b) => (
             <Grid item xs={12} sm={6} md={4} key={b.id}>
-              <Box sx={{ position: 'relative' }}>
-                <BudgetCard budget={b} />
-                <Box sx={{ position: 'absolute', top: 8, right: 8, display: 'flex', gap: 0.5 }}>
-                  <IconButton size="small" onClick={() => openEdit(b)}
-                    sx={{ color: '#6366f1', bgcolor: '#1e293b', '&:hover': { bgcolor: '#334155' } }}>
-                    <EditIcon fontSize="small" />
-                  </IconButton>
-                  <IconButton size="small" onClick={() => handleDelete(b.id)}
-                    sx={{ color: '#ef4444', bgcolor: '#1e293b', '&:hover': { bgcolor: '#334155' } }}>
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
-                </Box>
-              </Box>
+              <BudgetCard 
+                budget={b} 
+                onEdit={() => openEdit(b)}
+                onDelete={() => handleDelete(b.id)}
+              />
             </Grid>
           ))}
         </Grid>
@@ -143,8 +138,16 @@ export default function BudgetsPage() {
                 <MenuItem key={c.id} value={c.id}>{c.icon} {c.name}</MenuItem>
               ))}
             </TextField>
-            <TextField fullWidth required label="Budget Amount (₹)" type="number"
-              value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} sx={darkInput} />
+            <TextField fullWidth required label={`Budget Amount (${getCurrencySymbol()})`} type="number"
+              value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} sx={darkInput}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <span style={{ color: '#94a3b8' }}>{getCurrencySymbol()}</span>
+                  </InputAdornment>
+                ),
+              }}
+            />
             <Stack direction="row" spacing={2}>
               <TextField select fullWidth required label="Month" value={form.month}
                 onChange={(e) => setForm({ ...form, month: e.target.value })} sx={darkInput}>

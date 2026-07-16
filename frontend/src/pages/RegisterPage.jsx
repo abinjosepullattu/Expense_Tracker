@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import {
   Box, Card, CardContent, TextField, Button,
-  Typography, Alert, CircularProgress, Grid,
+  Typography, Alert, CircularProgress,
 } from '@mui/material';
 import { useAuth } from '../context/AuthContext';
 
@@ -65,8 +65,11 @@ export default function RegisterPage() {
       <Card
         sx={{
           width: '100%', maxWidth: 520,
-          bgcolor: '#1e293b', border: '1px solid #334155',
-          borderRadius: 4, boxShadow: '0 25px 50px rgba(0,0,0,0.5)',
+          background: 'rgba(30, 41, 59, 0.7)',
+          backdropFilter: 'blur(12px)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderRadius: 4,
+          boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
         }}
       >
         <CardContent sx={{ p: 4 }}>
@@ -81,32 +84,38 @@ export default function RegisterPage() {
           {error && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{error}</Alert>}
 
           <Box component="form" onSubmit={handleSubmit}>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(12, 1fr)' }, gap: 2.5 }}>
+              <Box sx={{ gridColumn: { xs: 'span 1', sm: 'span 6' } }}>
                 <TextField fullWidth label="First Name" name="first_name"
+                  InputLabelProps={{ shrink: true }} placeholder="First Name"
                   value={form.first_name} onChange={handleChange} sx={darkInput} />
-              </Grid>
-              <Grid item xs={6}>
+              </Box>
+              <Box sx={{ gridColumn: { xs: 'span 1', sm: 'span 6' } }}>
                 <TextField fullWidth label="Last Name" name="last_name"
+                  InputLabelProps={{ shrink: true }} placeholder="Last Name"
                   value={form.last_name} onChange={handleChange} sx={darkInput} />
-              </Grid>
-              <Grid item xs={12}>
+              </Box>
+              <Box sx={{ gridColumn: { xs: 'span 1', sm: 'span 12' } }}>
                 <TextField fullWidth required label="Username" name="username"
+                  InputLabelProps={{ shrink: true }} placeholder="Username"
                   value={form.username} onChange={handleChange} sx={darkInput} />
-              </Grid>
-              <Grid item xs={12}>
+              </Box>
+              <Box sx={{ gridColumn: { xs: 'span 1', sm: 'span 12' } }}>
                 <TextField fullWidth required label="Email" name="email" type="email"
+                  InputLabelProps={{ shrink: true }} placeholder="john@example.com"
                   value={form.email} onChange={handleChange} sx={darkInput} />
-              </Grid>
-              <Grid item xs={6}>
+              </Box>
+              <Box sx={{ gridColumn: { xs: 'span 1', sm: 'span 6' } }}>
                 <TextField fullWidth required label="Password" name="password"
+                  InputLabelProps={{ shrink: true }} placeholder="Password"
                   type="password" value={form.password} onChange={handleChange} sx={darkInput} />
-              </Grid>
-              <Grid item xs={6}>
+              </Box>
+              <Box sx={{ gridColumn: { xs: 'span 1', sm: 'span 6' } }}>
                 <TextField fullWidth required label="Confirm Password" name="password2"
+                  InputLabelProps={{ shrink: true }} placeholder="Confirm Password"
                   type="password" value={form.password2} onChange={handleChange} sx={darkInput} />
-              </Grid>
-            </Grid>
+              </Box>
+            </Box>
 
             <Button
               type="submit" fullWidth variant="contained"

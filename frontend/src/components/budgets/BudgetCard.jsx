@@ -1,6 +1,8 @@
 import {
-  Box, LinearProgress, Typography, Chip, Card, CardContent,
+  Box, LinearProgress, Typography, Chip, Card, CardContent, IconButton,
 } from '@mui/material';
+import EditIcon   from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { formatCurrency } from '../../utils/formatters';
 
 const STATUS_COLORS = {
@@ -9,7 +11,7 @@ const STATUS_COLORS = {
   'Over Budget': { bar: '#ef4444', chip: '#dc262622', text: '#f87171' },
 };
 
-export default function BudgetCard({ budget }) {
+export default function BudgetCard({ budget, onEdit, onDelete }) {
   const colors = STATUS_COLORS[budget.status] || STATUS_COLORS['Safe'];
   const pct    = Math.min(budget.utilization_pct, 100);
 
@@ -34,16 +36,28 @@ export default function BudgetCard({ budget }) {
               {budget.category_detail?.name}
             </Typography>
           </Box>
-          <Chip
-            label={budget.status}
-            size="small"
-            sx={{
-              bgcolor: colors.chip,
-              color:   colors.text,
-              fontWeight: 600,
-              fontSize: '0.7rem',
-            }}
-          />
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            <Chip
+              label={budget.status}
+              size="small"
+              sx={{
+                bgcolor: colors.chip,
+                color:   colors.text,
+                fontWeight: 650,
+                fontSize: '0.65rem',
+              }}
+            />
+            {onEdit && (
+              <IconButton size="small" onClick={(e) => { e.stopPropagation(); onEdit(); }} sx={{ color: '#818cf8', p: 0.5 }}>
+                <EditIcon sx={{ fontSize: '1.1rem' }} />
+              </IconButton>
+            )}
+            {onDelete && (
+              <IconButton size="small" onClick={(e) => { e.stopPropagation(); onDelete(); }} sx={{ color: '#f87171', p: 0.5 }}>
+                <DeleteIcon sx={{ fontSize: '1.1rem' }} />
+              </IconButton>
+            )}
+          </Box>
         </Box>
 
         {/* Progress Bar */}
@@ -70,7 +84,7 @@ export default function BudgetCard({ budget }) {
               {formatCurrency(budget.spent)}
             </Typography>
           </Box>
-          <Box sx={{ textAlign: 'center' }}>
+          <Box sx={{ display: 'center', alignItems: 'center' }}>
             <Typography variant="caption" color="text.secondary">
               {budget.utilization_pct.toFixed(1)}%
             </Typography>

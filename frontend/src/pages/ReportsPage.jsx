@@ -4,6 +4,9 @@ import {
   Grid, TextField, MenuItem, Stack, CircularProgress, Divider,
 } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 import PageWrapper         from '../components/common/PageWrapper';
 import CategoryPieChart    from '../charts/CategoryPieChart';
@@ -112,18 +115,44 @@ export default function ReportsPage() {
                 <Typography variant="h6" fontWeight={600} color="white" sx={{ mb: 2 }}>
                   📊 Summary
                 </Typography>
-                {[
-                  { label: 'Total Income',   value: report.total_income,   color: '#4ade80' },
-                  { label: 'Total Expenses', value: report.total_expenses, color: '#f87171' },
-                  { label: 'Net Savings',    value: report.savings,        color: '#818cf8' },
-                ].map((item) => (
-                  <Box key={item.label} sx={{ display: 'flex', justifyContent: 'space-between', py: 1.5, borderBottom: '1px solid #1e293b' }}>
-                    <Typography color="text.secondary">{item.label}</Typography>
-                    <Typography fontWeight={700} color={item.color}>
-                      {formatCurrency(item.value)}
-                    </Typography>
-                  </Box>
-                ))}
+                <Stack spacing={2}>
+                  {[
+                    { label: 'Total Income',   value: report.total_income,   color: '#4ade80', icon: <TrendingUpIcon sx={{ color: '#4ade80' }} />, bg: '#22c55e11' },
+                    { label: 'Total Expenses', value: report.total_expenses, color: '#f87171', icon: <TrendingDownIcon sx={{ color: '#f87171' }} />, bg: '#ef444411' },
+                    { label: 'Net Savings',    value: report.savings,        color: '#818cf8', icon: <AccountBalanceWalletIcon sx={{ color: '#818cf8' }} />, bg: '#6366f111' },
+                  ].map((item) => (
+                    <Box 
+                      key={item.label} 
+                      sx={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: 2, 
+                        p: 2, 
+                        borderRadius: 2.5, 
+                        bgcolor: item.bg, 
+                        border: '1px solid #33415566',
+                        transition: 'transform 0.2s, box-shadow 0.2s',
+                        '&:hover': {
+                          transform: 'translateY(-2px)',
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                          borderColor: '#6366f133'
+                        }
+                      }}
+                    >
+                      <Box sx={{ p: 1, borderRadius: 2, bgcolor: '#0f172a88', display: 'flex', alignItems: 'center' }}>
+                        {item.icon}
+                      </Box>
+                      <Box sx={{ flex: 1 }}>
+                        <Typography variant="caption" color="text.secondary" fontWeight={600} sx={{ textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                          {item.label}
+                        </Typography>
+                        <Typography variant="h6" fontWeight={750} color={item.color} sx={{ lineHeight: 1.2, mt: 0.5 }}>
+                          {formatCurrency(item.value)}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  ))}
+                </Stack>
               </CardContent>
             </Card>
           </Grid>

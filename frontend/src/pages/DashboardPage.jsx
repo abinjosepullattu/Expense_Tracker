@@ -52,7 +52,7 @@ export default function DashboardPage() {
   return (
     <PageWrapper>
       {/* Header */}
-      <Box sx={{ mb: 4 }}>
+      <Box sx={{ mb: 4, display: { xs: 'none', md: 'block' } }}>
         <Typography variant="h4" fontWeight={700} color="white">
           Dashboard
         </Typography>

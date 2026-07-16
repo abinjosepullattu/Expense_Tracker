@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
   Box, Card, CardContent, TextField, Button, Typography,
-  Alert, CircularProgress, Stack, Divider, Avatar,
+  Alert, CircularProgress, Stack, Divider, Avatar, MenuItem,
 } from '@mui/material';
 import { useAuth }  from '../context/AuthContext';
 import { authAPI }  from '../api/authAPI';
@@ -113,9 +113,22 @@ export default function ProfilePage() {
                   value={profile.phone}
                   onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
                   sx={darkInput} />
-                <TextField fullWidth label="Currency" value={profile.currency}
+                <TextField
+                  select
+                  fullWidth
+                  label="Currency"
+                  value={profile.currency}
                   onChange={(e) => setProfile({ ...profile, currency: e.target.value })}
-                  sx={darkInput} />
+                  sx={darkInput}
+                >
+                  <MenuItem value="INR">₹ INR (Indian Rupee)</MenuItem>
+                  <MenuItem value="USD">$ USD (US Dollar)</MenuItem>
+                  <MenuItem value="EUR">€ EUR (Euro)</MenuItem>
+                  <MenuItem value="GBP">£ GBP (British Pound)</MenuItem>
+                  <MenuItem value="CAD">$ CAD (Canadian Dollar)</MenuItem>
+                  <MenuItem value="AUD">$ AUD (Australian Dollar)</MenuItem>
+                  <MenuItem value="JPY">¥ JPY (Japanese Yen)</MenuItem>
+                </TextField>
                 <Button type="submit" variant="contained" disabled={saving}
                   sx={{ borderRadius: 2, background: 'linear-gradient(90deg,#6366f1,#8b5cf6)', fontWeight: 600 }}>
                   {saving ? <CircularProgress size={20} color="inherit" /> : 'Save Profile'}

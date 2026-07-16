@@ -9,6 +9,7 @@ import {
 import AddIcon    from '@mui/icons-material/Add';
 import EditIcon   from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import PageWrapper      from '../components/common/PageWrapper';
 import { transactionAPI } from '../api/transactionAPI';
@@ -21,6 +22,7 @@ export default function TransactionsPage() {
   const [page,     setPage]     = useState(1);
   const [loading,  setLoading]  = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+  const [viewBillTxn, setViewBillTxn] = useState(null);
 
   // Filters
   const [filters, setFilters] = useState({
@@ -97,7 +99,8 @@ export default function TransactionsPage() {
         />
       </Stack>
 
-      {/* Table */}
+      {/* Table (Desktop only) */}
+      <Box sx={{ display: { xs: 'none', md: 'block' } }}>
       <TableContainer
         component={Paper}
         sx={{ bgcolor: '#1e293b', border: '1px solid #334155', borderRadius: 3 }}
@@ -171,6 +174,12 @@ export default function TransactionsPage() {
                     {formatCurrency(txn.amount)}
                   </TableCell>
                   <TableCell align="center">
+                    {txn.is_bill && (
+                      <IconButton size="small" onClick={() => setViewBillTxn(txn)}
+                        sx={{ color: '#818cf8', mr: 0.5 }}>
+                        <VisibilityIcon fontSize="small" />
+                      </IconButton>
+                    )}
                     <IconButton size="small" onClick={() => navigate(`/transactions/${txn.id}/edit`)}
                       sx={{ color: '#6366f1', mr: 0.5 }}>
                       <EditIcon fontSize="small" />
@@ -186,6 +195,108 @@ export default function TransactionsPage() {
           </TableBody>
         </Table>
       </TableContainer>
+      </Box>
+
+      {/* List (Mobile only) */}
+      <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+        {loading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+            <CircularProgress sx={{ color: '#6366f1' }} />
+          </Box>
+        ) : transactions.length === 0 ? (
+          <Box sx={{ bgcolor: '#1e293b', border: '1px solid #334155', borderRadius: 3, p: 4, textAlign: 'center', color: '#64748b' }}>
+            <Typography variant="body1">No transactions found.</Typography>
+          </Box>
+        ) : (
+          <Stack spacing={2}>
+            {transactions.map((txn) => (
+              <Box
+                key={txn.id}
+                sx={{
+                  bgcolor: '#1e293b',
+                  border: '1px solid #334155',
+                  borderRadius: 3,
+                  p: 2,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                    <Chip
+                      label={`${txn.category_detail?.icon || ''} ${txn.category_detail?.name || 'N/A'}`}
+                      size="small"
+                      sx={{
+                        bgcolor: `${txn.category_detail?.color_hex || '#6366f1'}22`,
+                        color:    txn.category_detail?.color_hex || '#6366f1',
+                        fontWeight: 650,
+                        fontSize: '0.65rem',
+                      }}
+                    />
+                    <Chip
+                      label={txn.transaction_type}
+                      size="small"
+                      sx={{
+                        bgcolor: txn.transaction_type === 'income' ? '#16a34a22' : '#dc262622',
+                        color:   txn.transaction_type === 'income' ? '#4ade80'   : '#f87171',
+                        fontWeight: 650,
+                        fontSize: '0.65rem',
+                        textTransform: 'capitalize',
+                      }}
+                    />
+                  </Box>
+                  <Typography variant="body1" fontWeight={600} color="white" sx={{ mb: 0.5 }}>
+                    {txn.description || '—'}
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    {formatDate(txn.date)}
+                  </Typography>
+                </Box>
+
+                <Box sx={{ textAlign: 'right' }}>
+                  <Typography
+                    variant="subtitle1"
+                    fontWeight={700}
+                    sx={{
+                      color: txn.transaction_type === 'income' ? '#4ade80' : '#f87171',
+                      mb: 1,
+                    }}
+                  >
+                    {txn.transaction_type === 'expense' ? '- ' : '+ '}
+                    {formatCurrency(txn.amount)}
+                  </Typography>
+                  <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
+                    {txn.is_bill && (
+                      <IconButton
+                        size="small"
+                        onClick={() => setViewBillTxn(txn)}
+                        sx={{ color: '#818cf8', bgcolor: '#0f172a', p: 0.75 }}
+                      >
+                        <VisibilityIcon fontSize="small" />
+                      </IconButton>
+                    )}
+                    <IconButton
+                      size="small"
+                      onClick={() => navigate(`/transactions/${txn.id}/edit`)}
+                      sx={{ color: '#6366f1', bgcolor: '#0f172a', p: 0.75 }}
+                    >
+                      <EditIcon fontSize="small" />
+                    </IconButton>
+                    <IconButton
+                      size="small"
+                      onClick={() => handleDelete(txn.id)}
+                      sx={{ color: '#ef4444', bgcolor: '#0f172a', p: 0.75 }}
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </Box>
+                </Box>
+              </Box>
+            ))}
+          </Stack>
+        )}
+      </Box>
 
       {/* Pagination */}
       {count > 1 && (
@@ -230,6 +341,90 @@ export default function TransactionsPage() {
           >
             Delete
           </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* View Bill Details Dialog */}
+      <Dialog
+        open={Boolean(viewBillTxn)}
+        onClose={() => setViewBillTxn(null)}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{ sx: { bgcolor: '#1e293b', border: '1px solid #334155', borderRadius: 3 } }}
+      >
+        <DialogTitle sx={{ color: 'white', fontWeight: 700, pb: 1 }}>
+          🧾 Bill Payment / Invoice Details
+        </DialogTitle>
+        <DialogContent>
+          {viewBillTxn && (
+            <Stack spacing={2} sx={{ mt: 1 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #334155', pb: 1.5 }}>
+                <Typography color="text.secondary">Category</Typography>
+                <Typography color="white" fontWeight={600}>
+                  {viewBillTxn.category_detail?.icon} {viewBillTxn.category_detail?.name || 'No Category'}
+                </Typography>
+              </Box>
+
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #334155', pb: 1.5 }}>
+                <Typography color="text.secondary">Amount</Typography>
+                <Typography 
+                  fontWeight={700} 
+                  color={viewBillTxn.transaction_type === 'income' ? '#4ade80' : '#f87171'}
+                >
+                  {formatCurrency(viewBillTxn.amount)}
+                </Typography>
+              </Box>
+
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #334155', pb: 1.5 }}>
+                <Typography color="text.secondary">Transaction Date</Typography>
+                <Typography color="white">{formatDate(viewBillTxn.date)}</Typography>
+              </Box>
+
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #334155', pb: 1.5 }}>
+                <Typography color="text.secondary">Bill Due Date</Typography>
+                <Typography color="#f59e0b" fontWeight={600}>
+                  {formatDate(viewBillTxn.bill_due_date)}
+                </Typography>
+              </Box>
+
+              <Box sx={{ borderBottom: '1px solid #334155', pb: 1.5 }}>
+                <Typography color="text.secondary" sx={{ mb: 0.5 }}>Description</Typography>
+                <Typography color="white" variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
+                  {viewBillTxn.description || 'No description provided.'}
+                </Typography>
+              </Box>
+
+              <Box>
+                <Typography color="text.secondary" sx={{ mb: 1.5 }}>Bill / Receipt Image</Typography>
+                {viewBillTxn.bill_image ? (
+                  <Box 
+                    sx={{ 
+                      borderRadius: 2, 
+                      overflow: 'hidden', 
+                      border: '1px solid #334155',
+                      bgcolor: '#0f172a',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      p: 1
+                    }}
+                  >
+                    <img 
+                      src={viewBillTxn.bill_image} 
+                      alt="Bill Receipt" 
+                      style={{ maxWidth: '100%', maxHeight: 350, objectFit: 'contain' }} 
+                    />
+                  </Box>
+                ) : (
+                  <Typography variant="body2" color="text.secondary" sx={{ pl: 1, fontStyle: 'italic' }}>
+                    No receipt image uploaded.
+                  </Typography>
+                )}
+              </Box>
+            </Stack>
+          )}
+        </DialogContent>
+        <DialogActions sx={{ p: 3, pt: 0 }}>
+          <Button onClick={() => setViewBillTxn(null)} variant="contained" sx={{ bgcolor: '#6366f1', '&:hover': { bgcolor: '#4f46e5' }, px: 3, borderRadius: 2 }}>Close</Button>
         </DialogActions>
       </Dialog>
     </PageWrapper>

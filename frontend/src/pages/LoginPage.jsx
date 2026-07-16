@@ -50,10 +50,11 @@ export default function LoginPage() {
         sx={{
           width: '100%',
           maxWidth: 420,
-          bgcolor: '#1e293b',
-          border: '1px solid #334155',
+          background: 'rgba(30, 41, 59, 0.7)',
+          backdropFilter: 'blur(12px)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
           borderRadius: 4,
-          boxShadow: '0 25px 50px rgba(0,0,0,0.5)',
+          boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
         }}
       >
         <CardContent sx={{ p: 4 }}>
@@ -81,6 +82,8 @@ export default function LoginPage() {
               fullWidth label="Email" name="email" type="email"
               value={form.email} onChange={handleChange}
               required autoFocus
+              InputLabelProps={{ shrink: true }}
+              placeholder="Enter your email"
               sx={{ mb: 2, ...darkInput }}
             />
             <TextField
@@ -88,6 +91,8 @@ export default function LoginPage() {
               type={showPwd ? 'text' : 'password'}
               value={form.password} onChange={handleChange}
               required
+              InputLabelProps={{ shrink: true }}
+              placeholder="Enter your password"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">

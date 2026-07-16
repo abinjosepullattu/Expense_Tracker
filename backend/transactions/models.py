@@ -53,6 +53,9 @@ class Transaction(models.Model):
     amount      = models.DecimalField(max_digits=12, decimal_places=2)
     description = models.TextField(blank=True)
     date        = models.DateField()
+    is_bill     = models.BooleanField(default=False)
+    bill_due_date = models.DateField(null=True, blank=True)
+    bill_image    = models.TextField(null=True, blank=True)
     created_at  = models.DateTimeField(auto_now_add=True)
     updated_at  = models.DateTimeField(auto_now=True)
 
