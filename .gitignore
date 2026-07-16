@@ -1,8 +1,11 @@
-# ─── Python ──────────────────────────────────────────────────
+# Python / Django
 *.pyc
 __pycache__/
 *.sqlite3
+db.sqlite3
+/backend/db.sqlite3
 .env
+backend/.env
 media/
 staticfiles/
 *.egg-info/
@@ -10,16 +13,34 @@ dist/
 build/
 .pytest_cache/
 
-# ─── Node ────────────────────────────────────────────────────
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+backend/venv/
+backend/.venv/
+backend/env/
+
+# Node / Frontend
 node_modules/
+frontend/node_modules/
+dist/
 frontend/dist/
 .env.local
 .env.production
+.env.development
+frontend/.env
+frontend/.env.local
 
-# ─── OS ──────────────────────────────────────────────────────
+# OS / Miscellaneous
 .DS_Store
 Thumbs.db
+*.log
 
-# ─── IDE ─────────────────────────────────────────────────────
+# IDE Cache
 .vscode/
 .idea/
+.project
+.pydevproject
+.settings/
